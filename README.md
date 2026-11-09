@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ShopBoard
 
-## Getting Started
+ShopBoard is a Next.js App Router storefront for bags, shoes, and accessories.
+It uses server-fetched product data, a browser-persistent cart, a reusable
+Tailwind UI kit, and an interactive light/dark theme.
 
-First, run the development server:
+## Requirements
+
+- Node.js 20.9 or newer
+- npm
+
+## Install and run
 
 ```bash
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Available checks:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run lint
+npm run build
+npm run start
+```
 
-## Learn More
+`npm run start` serves the most recent production build.
 
-To learn more about Next.js, take a look at the following resources:
+## Routes and features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `/` — editorial storefront home page and product collection link.
+- `/products` — product collection with category, price, stock status, and
+  add-to-cart actions.
+- `/products/[id]` — product detail, stock state, and add-to-cart action.
+  Invalid IDs and products missing from the collection use the not-found page.
+- `/cart` — persistent cart with quantity controls, removal, subtotal, and a
+  confirmation dialog before clearing all items.
+- `/checkout` — order summary and validated demo checkout form. An empty cart
+  cannot be checked out. Saved IDs missing from the current product response
+  are listed and must be removed from the cart before checkout can continue.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Checkout accepts a name, email address, and address. A successful submission
+clears the cart and displays a thank-you message. This is a demo: no real order
+or payment is created, and form data is not sent to an API or saved in browser
+storage.
 
-## Deploy on Vercel
+## Product API
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The shared API client requests
+`https://shopboard-api.vercel.app/api/products` on the server with caching
+disabled. The product adapter validates the response shape and every product
+before exposing the product data to pages. Product details are selected by ID
+from this validated collection; no individual-product endpoint is assumed.
+Product image URLs are mapped locally, with a placeholder used when an image is
+missing or fails to load.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Cart and theme persistence
+
+Cart item IDs and quantities are stored in browser `localStorage` under
+`shopboard-cart`. Saved values are validated before use; invalid or unreadable
+data safely becomes an empty cart. The initial server snapshot is empty, and
+the browser reads saved data after hydration to avoid a server/client markup
+mismatch. When a saved product ID is absent from the API response, the cart
+shows it as unavailable and excludes it from totals.
+
+The selected theme is stored under `shopboard-theme`. If there is no saved
+choice, the storefront follows the operating system preference. Storage access
+failures leave the app usable for the current session.
+
+## UI conventions
+
+Shared `Button`, `Input`, `Card`, `Badge`, and native-dialog `Modal` components
+live in `components/ui/`. Semantic color, radius, and font tokens are defined
+in `app/globals.css`; Tailwind is used for component layout and styling.
+Project conventions are documented in `CLAUDE.md`, and the installed Next.js
+agent guidance is in `AGENTS.md`.

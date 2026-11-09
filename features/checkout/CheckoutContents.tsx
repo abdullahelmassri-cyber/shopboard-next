@@ -77,38 +77,40 @@ export function CheckoutContents({ products }: { products: DisplayProduct[] }) {
             )}
           </section>
 
-          <Card className="p-6 sm:p-8" aria-labelledby="order-summary-heading">
-            <h2 className="font-serif text-2xl text-foreground" id="order-summary-heading">
-              Order summary
-            </h2>
-            {lines.length > 0 ? (
-              <ul className="mt-5 divide-y divide-border">
-                {lines.map((line) => (
-                  <li className="flex justify-between gap-4 py-3 text-sm" key={line.id}>
-                    <span className="text-foreground">
-                      {line.name} <span className="text-muted">× {line.qty}</span>
-                    </span>
-                    <span className="shrink-0 font-semibold text-foreground">
-                      ${line.lineTotal.toFixed(2)}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="mt-4 text-sm text-muted">
-                No saved items are currently available in the product list.
+          <aside aria-labelledby="order-summary-heading">
+            <Card className="p-6 sm:p-8">
+              <h2 className="font-serif text-2xl text-foreground" id="order-summary-heading">
+                Order summary
+              </h2>
+              {lines.length > 0 ? (
+                <ul className="mt-5 divide-y divide-border">
+                  {lines.map((line) => (
+                    <li className="flex justify-between gap-4 py-3 text-sm" key={line.id}>
+                      <span className="text-foreground">
+                        {line.name} <span className="text-muted">× {line.qty}</span>
+                      </span>
+                      <span className="shrink-0 font-semibold text-foreground">
+                        ${line.lineTotal.toFixed(2)}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="mt-4 text-sm text-muted">
+                  No saved items are currently available in the product list.
+                </p>
+              )}
+              {unavailableItems.length > 0 && (
+                <p className="mt-3 text-sm text-accent">
+                  {unavailableItems.length} unavailable {unavailableItems.length === 1 ? "item is" : "items are"} omitted from this subtotal.
+                </p>
+              )}
+              <p className="mt-4 flex justify-between gap-4 border-t border-border pt-4 text-lg font-semibold text-foreground">
+                <span>Subtotal</span>
+                <span>${subtotal.toFixed(2)}</span>
               </p>
-            )}
-            {unavailableItems.length > 0 && (
-              <p className="mt-3 text-sm text-accent">
-                {unavailableItems.length} unavailable {unavailableItems.length === 1 ? "item is" : "items are"} omitted from this subtotal.
-              </p>
-            )}
-            <p className="mt-4 flex justify-between gap-4 border-t border-border pt-4 text-lg font-semibold text-foreground">
-              <span>Subtotal</span>
-              <span>${subtotal.toFixed(2)}</span>
-            </p>
-          </Card>
+            </Card>
+          </aside>
         </div>
       )}
 
