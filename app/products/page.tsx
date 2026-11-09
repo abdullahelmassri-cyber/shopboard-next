@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AddToCartButton } from "@/features/cart/AddToCartButton";
 import { ProductImage } from "@/features/products/ProductImage";
 import { getProducts } from "@/features/products/products.api";
 import { withProductImage } from "@/features/products/products.images";
@@ -50,6 +51,11 @@ export default async function ProductsPage() {
                       {product.inStock ? "In stock" : "Out of stock"}
                     </p>
                   </div>
+                  <AddToCartButton
+                    productId={product.id}
+                    productName={product.name}
+                    inStock={product.inStock}
+                  />
                 </div>
               </article>
             </li>

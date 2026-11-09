@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { AddToCartButton } from "@/features/cart/AddToCartButton";
 import { ProductImage } from "@/features/products/ProductImage";
 import { getProductById } from "@/features/products/products.api";
 import { withProductImage } from "@/features/products/products.images";
@@ -42,6 +43,11 @@ async function ProductDetails({
         <p className="mt-3 text-[var(--muted)]">
           {displayProduct.inStock ? "In stock" : "Currently out of stock"}
         </p>
+        <AddToCartButton
+          productId={displayProduct.id}
+          productName={displayProduct.name}
+          inStock={displayProduct.inStock}
+        />
         <Link
           className="mt-9 inline-flex min-h-12 items-center justify-center rounded-[var(--radius)] border border-[var(--forest)] px-6 py-3 text-sm font-semibold text-[var(--forest)] transition-colors hover:bg-[var(--color-image-background)]"
           href="/products"
