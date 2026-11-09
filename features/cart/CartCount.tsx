@@ -9,7 +9,7 @@ export function CartCount() {
 
   return (
     <Link
-      className="rounded-sm text-[var(--forest)] hover:text-[var(--accent)]"
+      className="rounded-sm text-foreground hover:text-accent"
       href="/cart"
       aria-live="polite"
     >

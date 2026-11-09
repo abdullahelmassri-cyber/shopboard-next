@@ -15,7 +15,7 @@ export function ProductImage({ src, alt, priority = false }: ProductImageProps) 
 
   return (
     <Image
-      className="aspect-[4/3] h-auto w-full bg-[var(--color-image-background)] object-cover"
+      className="aspect-4/3 h-auto w-full bg-image-background object-cover"
       src={imageSrc}
       alt={alt}
       width={900}

@@ -18,8 +18,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <CartProvider>
           <SiteHeader />
           <main className="flex flex-1 flex-col">{children}</main>
-          <footer className="border-t border-[var(--line)] bg-[var(--white)]">
-            <p className="mx-auto w-full max-w-[1220px] px-5 py-6 text-sm text-[var(--muted)] sm:px-8">
+          <footer className="border-t border-border bg-surface">
+            <p className="mx-auto w-full max-w-6xl px-5 py-6 text-sm text-muted sm:px-8">
               Thoughtful everyday essentials, selected for ShopBoard.
             </p>
           </footer>

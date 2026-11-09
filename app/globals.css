@@ -1,25 +1,106 @@
 @import "tailwindcss";
 
 :root {
-  --paper: #f7f8f4;
-  --white: #fff;
-  --ink: #202c26;
-  --muted: #66716a;
-  --line: #dce3dd;
+  color-scheme: light;
+  --background: #f7f8f4;
+  --surface: #ffffff;
+  --foreground: #202c26;
+  --text-muted: #58645d;
+  --border: #dce3dd;
+  --primary: #244337;
+  --primary-hover: #315746;
+  --primary-foreground: #ffffff;
+  --accent: #a9442f;
+  --accent-subtle: #f8e9e4;
+  --success: #25623f;
+  --success-subtle: #e7f1e9;
+  --image-background: #e8ece6;
+  --control-border: #cbd4cc;
   --forest: #244337;
-  --accent: #c85c43;
-  --color-button-hover: #315746;
-  --color-image-background: #e8ece6;
-  --radius: 4px;
-  --font-sans: "Avenir Next", Avenir, "Segoe UI", sans-serif;
-  --font-serif: Georgia, "Times New Roman", serif;
+  --button-hover: #315746;
+  --radius-small: 0.25rem;
+  --radius-medium: 0.375rem;
+  --font-body: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+  --font-display: Georgia, "Times New Roman", serif;
+  --line-display: 1.04;
+  --track-eyebrow: 0.2em;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --background: #141d18;
+  --surface: #202c25;
+  --foreground: #eff4ef;
+  --text-muted: #b7c2ba;
+  --border: #405046;
+  --primary: #9bc5a7;
+  --primary-hover: #b7d9bf;
+  --primary-foreground: #142019;
+  --accent: #ff9a7e;
+  --accent-subtle: #482d29;
+  --success: #a6d6b2;
+  --success-subtle: #273b2e;
+  --image-background: #2b3930;
+  --control-border: #718076;
+  --forest: #9bc5a7;
+  --button-hover: #b7d9bf;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --background: #141d18;
+    --surface: #202c25;
+    --foreground: #eff4ef;
+    --text-muted: #b7c2ba;
+    --border: #405046;
+    --primary: #9bc5a7;
+    --primary-hover: #b7d9bf;
+    --primary-foreground: #142019;
+    --accent: #ff9a7e;
+    --accent-subtle: #482d29;
+    --success: #a6d6b2;
+    --success-subtle: #273b2e;
+    --image-background: #2b3930;
+    --control-border: #718076;
+    --forest: #9bc5a7;
+    --button-hover: #b7d9bf;
+  }
+}
+
+/* Compatibility aliases for the existing storefront while components migrate to semantic tokens. */
+:root {
+  --paper: var(--background);
+  --white: var(--surface);
+  --ink: var(--foreground);
+  --muted: var(--text-muted);
+  --line: var(--border);
+  --color-button-hover: var(--button-hover);
+  --color-image-background: var(--image-background);
+  --radius: var(--radius-small);
 }
 
 @theme inline {
-  --color-background: var(--paper);
-  --color-foreground: var(--ink);
-  --font-sans: var(--font-sans);
-  --font-serif: var(--font-serif);
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--text-muted);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-subtle: var(--accent-subtle);
+  --color-success: var(--success);
+  --color-success-subtle: var(--success-subtle);
+  --color-image-background: var(--image-background);
+  --color-control-border: var(--control-border);
+  --font-sans: var(--font-body);
+  --font-serif: var(--font-display);
+  --leading-display: var(--line-display);
+  --tracking-eyebrow: var(--track-eyebrow);
+  --radius-sm: var(--radius-small);
+  --radius-md: var(--radius-medium);
 }
 
 *,
@@ -35,10 +116,11 @@ html {
 
 body {
   margin: 0;
-  background: var(--paper);
-  color: var(--ink);
-  font-family: var(--font-sans);
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
   line-height: 1.5;
+  transition: background-color 160ms ease, color 160ms ease;
 }
 
 :focus-visible {
@@ -49,5 +131,9 @@ body {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  body {
+    transition: none;
   }
 }
