@@ -1,9 +1,11 @@
 "use client";
 
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/Badge";
 import { Button, buttonVariants } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
+import { Modal } from "@/components/ui/Modal";
 import { ProductImage } from "@/features/products/ProductImage";
 import type { DisplayProduct } from "@/features/products/products.types";
 import { buildCartLines, cartCount, cartTotal } from "./cart.logic";
@@ -12,6 +14,8 @@ import { cn } from "@/lib/utils";
 
 export function CartContents({ products }: { products: DisplayProduct[] }) {
   const { items, changeQuantity, clearCart, removeItem } = useCart();
+  const [clearConfirmationOpen, setClearConfirmationOpen] = useState(false);
+  const emptyCartHeadingRef = useRef<HTMLHeadingElement>(null);
   const lines = buildCartLines(items, products);
   const productIds = new Set(products.map((product) => product.id));
   const unavailableItems = items.filter((item) => !productIds.has(item.id));
@@ -28,7 +32,13 @@ export function CartContents({ products }: { products: DisplayProduct[] }) {
 
       {lines.length === 0 ? (
         <div className="mt-6">
-          <p className="text-muted">Your cart is empty.</p>
+          <h2
+            className="font-serif text-xl text-foreground"
+            ref={emptyCartHeadingRef}
+            tabIndex={-1}
+          >
+            Your cart is empty.
+          </h2>
           <Link
             className={cn(buttonVariants({ size: "md" }), "mt-5")}
             href="/products"
@@ -141,11 +151,37 @@ export function CartContents({ products }: { products: DisplayProduct[] }) {
           variant="secondary"
           type="button"
           disabled={items.length === 0}
-          onClick={clearCart}
+          onClick={() => setClearConfirmationOpen(true)}
         >
           Clear cart
         </Button>
       </div>
+
+      <Modal
+        open={clearConfirmationOpen}
+        onClose={() => setClearConfirmationOpen(false)}
+        title="Clear your cart?"
+        description="This will remove every item from your cart. This action cannot be undone."
+        size="sm"
+        fallbackFocusRef={emptyCartHeadingRef}
+      >
+        <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+          <Button
+            variant="secondary"
+            onClick={() => setClearConfirmationOpen(false)}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={() => {
+              clearCart();
+              setClearConfirmationOpen(false);
+            }}
+          >
+            Clear all items
+          </Button>
+        </div>
+      </Modal>
     </section>
   );
 }
