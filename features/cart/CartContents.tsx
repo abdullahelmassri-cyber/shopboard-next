@@ -145,16 +145,24 @@ export function CartContents({ products }: { products: DisplayProduct[] }) {
         <p className="text-lg font-semibold text-foreground">
           Subtotal: ${total.toFixed(2)}
         </p>
-        <Button
-          className="min-h-10 px-4"
-          size="sm"
-          variant="secondary"
-          type="button"
-          disabled={items.length === 0}
-          onClick={() => setClearConfirmationOpen(true)}
-        >
-          Clear cart
-        </Button>
+        <div className="flex flex-wrap gap-3">
+          <Button
+            className="min-h-10 px-4"
+            size="sm"
+            variant="secondary"
+            type="button"
+            disabled={items.length === 0}
+            onClick={() => setClearConfirmationOpen(true)}
+          >
+            Clear cart
+          </Button>
+          <Link
+            className={cn(buttonVariants({ size: "sm" }), "min-h-10 px-4")}
+            href="/checkout"
+          >
+            Continue to checkout
+          </Link>
+        </div>
       </div>
 
       <Modal
