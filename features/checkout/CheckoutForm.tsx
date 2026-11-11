@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -32,9 +32,8 @@ const fields = [
   },
 ] as const;
 
-export function CheckoutForm() {
+export function CheckoutForm({ onComplete }: { onComplete: () => void }) {
   const { clearCart } = useCart();
-  const submissionInProgress = useRef(false);
   const [orderComplete, setOrderComplete] = useState(false);
   const {
     register,
@@ -49,20 +48,11 @@ export function CheckoutForm() {
   });
 
   async function submitForm(event: FormEvent<HTMLFormElement>): Promise<void> {
-    if (submissionInProgress.current) {
-      event.preventDefault();
-      return;
-    }
-
-    submissionInProgress.current = true;
-    try {
-      await handleSubmit(async () => {
-        clearCart();
-        setOrderComplete(true);
-      })(event);
-    } finally {
-      submissionInProgress.current = false;
-    }
+    await handleSubmit(async () => {
+      setOrderComplete(true);
+      onComplete();
+    })(event);
+    clearCart();
   }
 
   if (orderComplete) {

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
@@ -11,6 +12,7 @@ import { cn } from "@/lib/utils";
 
 export function CheckoutContents({ products }: { products: DisplayProduct[] }) {
   const { items } = useCart();
+  const [completed, setCompleted] = useState(false);
   const lines = buildCartLines(items, products);
   const productIds = new Set(products.map((product) => product.id));
   const unavailableItems = items.filter((item) => !productIds.has(item.id));
@@ -25,7 +27,7 @@ export function CheckoutContents({ products }: { products: DisplayProduct[] }) {
         Checkout
       </h1>
 
-      {items.length === 0 ? (
+      {items.length === 0 && !completed ? (
         <Card className="mt-8 max-w-2xl p-6 sm:p-8" role="status">
           <h2 className="font-serif text-2xl text-foreground">Your cart is empty</h2>
           <p className="mt-3 text-muted">
@@ -72,7 +74,7 @@ export function CheckoutContents({ products }: { products: DisplayProduct[] }) {
                 >
                   Your details
                 </h2>
-                <CheckoutForm />
+                <CheckoutForm onComplete={() => setCompleted(true)} />
               </Card>
             )}
           </section>

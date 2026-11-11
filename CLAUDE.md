@@ -14,3 +14,7 @@
   explicit and restore focus sensibly after dialogs close.
 - Use `next/link` for internal navigation. Fetch and validate product data
   through the shared server-side data layer; do not fetch it in effects.
+- When a test fails, investigate and fix the application code or configuration;
+  do not change a correct test just to make it pass. Update tests deliberately
+  only when requirements change or a test is demonstrably incorrect, and
+  explain the reason.

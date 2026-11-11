@@ -1,4 +1,5 @@
-export const API_BASE_URL = "https://shopboard-api.vercel.app";
+export const API_BASE_URL =
+  process.env.NEXT_PUBLIC_SHOPBOARD_API_BASE_URL ?? "https://shopboard-api.vercel.app";
 
 export class ApiError extends Error {
   constructor(message: string, public readonly status: number) {
